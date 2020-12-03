@@ -24,11 +24,11 @@ This repository contains a sample map app that implements Firebase Login, Fireba
 ![alt text][login] ![alt text][currentLocation] ![alt text][addMarker] ![alt text][markerDetail] ![alt text][filter] ![alt text][detailActivity]
 
 [login]: https://github.com/hamidsn/mapMarkers/blob/main/screenshots/t1.jpg "Login Screen"
-[currentLocation]: https://github.com/hamidsn/mapMarkers/blob/main/screenshots/t2.jpeg "Current location"
-[addMarker]: https://github.com/hamidsn/mapMarkers/blob/main/screenshots/t3.jpeg "Add marker"
-[markerDetail]: https://github.com/hamidsn/mapMarkers/blob/main/screenshots/t4.jpeg "Marker details"
-[filter]: https://github.com/hamidsn/mapMarkers/blob/main/screenshots/t5.jpeg "Filter markers"
-[detailActivity]: https://github.com/hamidsn/mapMarkers/blob/main/screenshots/t6.jpeg "Filter markers"
+[currentLocation]: https://github.com/hamidsn/mapMarkers/blob/main/screenshots/t2.jpg "Current location"
+[addMarker]: https://github.com/hamidsn/mapMarkers/blob/main/screenshots/t3.jpg "Add marker"
+[markerDetail]: https://github.com/hamidsn/mapMarkers/blob/main/screenshots/t4.jpg "Marker details"
+[filter]: https://github.com/hamidsn/mapMarkers/blob/main/screenshots/t5.jpg "Filter markers"
+[detailActivity]: https://github.com/hamidsn/mapMarkers/blob/main/screenshots/t6.jpg "Filter markers"
 
 ## Steps
 * Creating API key for maps
