@@ -27,7 +27,6 @@ object LocationUtil {
         val addresses: List<Address>?
         val address: Address?
         var addressText = ""
-
         try {
 
             addresses = Geocoder(context).getFromLocation(latLng.latitude, latLng.longitude, 1)

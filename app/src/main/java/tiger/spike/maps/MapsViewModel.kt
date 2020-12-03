@@ -1,10 +1,9 @@
 package tiger.spike.maps
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -15,13 +14,14 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
+import org.jetbrains.annotations.NotNull
 import tiger.spike.model.MarkerResponse
 import tiger.spike.model.Place
 
-class MapsViewModel(application: Application) : AndroidViewModel(application) {
+class MapsViewModel : ViewModel() {
 
     private var userName: String? = ""
-    private var markersDatabaseReference: DatabaseReference? = null
+    private var markersDatabaseReference: DatabaseReference
 
     private var _userMarkerOptuion = MutableLiveData<MarkerOptions>()
     val markerList: MutableList<Place> = mutableListOf()
@@ -52,6 +52,30 @@ class MapsViewModel(application: Application) : AndroidViewModel(application) {
                 val mChildEventListener = object : ChildEventListener {
                     override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                         val savedMarker: MarkerResponse? = dataSnapshot.getValue(MarkerResponse::class.java)
+                        savedMarker?.let {
+                            newPlace.run {
+                                add(
+                                        MarkerResponse(
+                                                it.note,
+                                                it.userName,
+                                                it.address,
+                                                it.latitude,
+                                                it.longitude
+                                        )
+                                )
+                            }
+                            markerDetailsList.value = newPlace
+
+                            markerList.run {
+                                add(
+                                        Place(
+                                                savedMarker.note,
+                                                LatLng(savedMarker.latitude, savedMarker.longitude),
+                                                savedMarker.userName
+                                        )
+                                )
+                            }
+                        }
                         if (savedMarker != null) {
                             newPlace.run {
                                 add(
@@ -95,10 +119,10 @@ class MapsViewModel(application: Application) : AndroidViewModel(application) {
         _userMarkerOptuion.value = markerOption
     }
 
-    fun storeMarkerInCloud(point: LatLng?, note: String, address: String) {
+    fun storeMarkerInCloud(@NotNull point: LatLng?, note: String, address: String) {
         val newMarker = MarkerResponse(note, userName
                 ?: "", address, point!!.latitude, point.longitude)
-        markersDatabaseReference!!.child((System.currentTimeMillis() / 1000L).toString())
+        markersDatabaseReference.child((System.currentTimeMillis() / 1000L).toString())
                 .setValue(
                         newMarker
                 ).addOnSuccessListener {
@@ -114,11 +138,10 @@ class MapsViewModel(application: Application) : AndroidViewModel(application) {
         filteredMarkerList.clear()
 
         markerDetailsList.value?.forEach {
-            if (if (filterArea == "note") {
-                        it.note.contains(filterText, true)
-                    } else {
-                        it.userName.contains(filterText, true)
-                    }) {
+            if (when (filterArea) {
+                "note" -> it.note.contains(filterText, true)
+                else -> it.userName.contains(filterText, true)
+            }) {
                 filteredMarkerList.run {
                     add(Place(it.note, LatLng(it.latitude, it.longitude), it.userName)
                     )

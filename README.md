@@ -5,7 +5,7 @@
 
 
 ## Technical Feature
-This repository contains a sample map app that implements Firebase Login, Firebase Database, LiveData, Google Maps, MCCM architect
+This repository contains a sample map app that implements Firebase Login, Firebase Database, LiveData, Google Maps, MVVM architect
 
 ## Library Reference:
 * JetPack Architecture 
