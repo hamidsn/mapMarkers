@@ -1,10 +1,6 @@
 #SAMPLE APP
 
-## Features
-* Login Firebase
-
-
-## Technical Feature
+## Technical Features
 This repository contains a sample map app that implements Firebase Login, Firebase Database, LiveData, Google Maps, MVVM architect
 
 ## Library Reference:
