@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "196642642735",
+    "firebase_url": "https://map-markers-70001.firebaseio.com",
+    "project_id": "map-markers-70001",
+    "storage_bucket": "map-markers-70001.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196642642735:android:7faba8bdb05d3a46435fda",
+        "android_client_info": {
+          "package_name": "tiger.spike.application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "196642642735-nqs1orvqva4dpq5gtn7d3re6o9jgtjan.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4mXlhr17vNnPFwviicPx-139h_SZTkiY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "196642642735-nqs1orvqva4dpq5gtn7d3re6o9jgtjan.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

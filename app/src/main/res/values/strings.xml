@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Map Markers</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="btn_persistent">Persistent Bottom Sheet</string>
+    <string name="btn_modal">Modal Bottom Sheet</string>
+    <string name="tv_title">Learn Bottom Sheet</string>
+    <string name="btn_one">Button 1</string>
+    <string name="btn_two">Button 2</string>
+    <string name="btn_three">Button 3</string>
+    <string name="get_direction">Directions</string>
+    <string name="direction_uri">google.navigation:q=%1$s,%2$s</string>
+    <string name="filter_button">Filter</string>
+    <string name="filter_by_user_name">Filter by user name</string>
+    <string name="filter_by_note">Filter by note</string>
+    <string name="note">Note:</string>
+    <string name="enter_your_note">Enter your note</string>
+    <string name="username">Username:</string>
+    <string name="address">Address</string>
+
+</resources>
