@@ -5,44 +5,42 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
+import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tiger.spike.maps.R
+import tiger.spike.maps.databinding.BottomSheetBinding
 
 class OptionsBottomSheetFragment : BottomSheetDialogFragment() {
-    private lateinit var noteFilter: EditText
-    private lateinit var userNameFilter: EditText
-    private lateinit var noteButton: Button
-    private lateinit var userNameButton: Button
     private var mListener: ItemClickListener? = null
+    private lateinit var binding: BottomSheetBinding
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.bottom_sheet, container, false)
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(
+            LayoutInflater.from(context),
+            R.layout.bottom_sheet,
+            null,
+            true
+        )
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.apply {
+            noteButton.setOnClickListener {
+                dismissAllowingStateLoss()
+                mListener?.onItemClick("note", binding.noteEd.text.toString())
+            }
+
+            usernameButton.setOnClickListener {
+                dismissAllowingStateLoss()
+                mListener?.onItemClick("userName", binding.userEd.text.toString())
+            }
+        }
         super.onViewCreated(view, savedInstanceState)
-        noteFilter = view.findViewById(R.id.note_ed)
-        userNameFilter = view.findViewById(R.id.user_ed)
-        noteButton = view.findViewById(R.id.note_button)
-        userNameButton = view.findViewById(R.id.username_button)
-        setUpViews()
-    }
-
-    private fun setUpViews() {
-        noteButton.setOnClickListener {
-            dismissAllowingStateLoss()
-            mListener?.onItemClick("note", noteFilter.text.toString())
-        }
-
-        userNameButton.setOnClickListener {
-            dismissAllowingStateLoss()
-            mListener?.onItemClick("userName", userNameFilter.text.toString())
-        }
     }
 
     override fun onAttach(context: Context) {
@@ -51,7 +49,7 @@ class OptionsBottomSheetFragment : BottomSheetDialogFragment() {
             mListener = context
         } else {
             throw RuntimeException(
-                    "$context must implement ItemClickListener"
+                "$context must implement ItemClickListener"
             )
         }
     }
