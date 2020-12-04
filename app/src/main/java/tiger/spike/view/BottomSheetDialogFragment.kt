@@ -63,7 +63,6 @@ class OptionsBottomSheetFragment : BottomSheetDialogFragment() {
         fun onItemClick(item: String, filter: String)
     }
 
-
     companion object {
         @JvmStatic
         fun newInstance(bundle: Bundle): OptionsBottomSheetFragment {

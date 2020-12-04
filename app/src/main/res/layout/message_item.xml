@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<layout>
 <RelativeLayout android:id="@+id/layout_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -29,3 +31,5 @@
         android:layout_below="@id/note_edit" />
 
 </RelativeLayout>
+
+    </layout>

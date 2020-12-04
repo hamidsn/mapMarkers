@@ -13,6 +13,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.NotNull
 import tiger.spike.model.MarkerResponse
@@ -31,7 +32,7 @@ class MapsViewModel : ViewModel() {
         get() = _userMarkerOptuion
 
     var markerDetailsList = MutableLiveData<ArrayList<MarkerResponse>>()
-    var newPlace = arrayListOf<MarkerResponse>()
+    private var newPlace = arrayListOf<MarkerResponse>()
 
     init {
         //fetch userName and userId
@@ -46,7 +47,7 @@ class MapsViewModel : ViewModel() {
 
     //Coroutine is used to fetch data from Firebase DataBase
     private fun fetchMarkers() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 //fetch all previously saved markers from Firebase
                 val mChildEventListener = object : ChildEventListener {
@@ -148,7 +149,7 @@ class MapsViewModel : ViewModel() {
                 }
             }
         }
-        markerDetailsList.postValue(newPlace)
+        markerDetailsList.value = newPlace
     }
 
     fun getCustomizedMarkerList(): MutableList<Place>? {

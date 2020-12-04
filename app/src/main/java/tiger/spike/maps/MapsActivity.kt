@@ -7,13 +7,11 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -21,6 +19,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import tiger.spike.maps.databinding.MessageItemBinding
 import tiger.spike.util.LocationUtil
 import tiger.spike.view.CustomInfoWindow
 import tiger.spike.view.OptionsBottomSheetFragment
@@ -40,7 +39,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OptionsBottomSheet
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+                .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
@@ -68,41 +67,40 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OptionsBottomSheet
                     }
                 }
             }
-
         })
 
         map.setInfoWindowAdapter(CustomInfoWindow(this))
 
         map.setOnMapClickListener { position ->
             locationViewModel.updateUserMarkerOption(
-                MarkerOptions().position(position)
-                    .title("Your marker")
-                    .zIndex(1.0f)
-                    .visible(true)
-                    .alpha(0.7f)
-                    .snippet(LocationUtil.getAddress(position, this))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker))
+                    MarkerOptions().position(position)
+                            .title("Your marker")
+                            .zIndex(1.0f)
+                            .visible(true)
+                            .alpha(0.7f)
+                            .snippet(LocationUtil.getAddress(position, this))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker))
             )
+        }
 
-            map.setOnInfoWindowClickListener { marker ->
-                if (marker.title == "Your marker") {
-                    showAlertDialogForPoint(
-                        position,
+        map.setOnInfoWindowClickListener { marker ->
+            if (marker.title == "Your marker") {
+                showAlertDialogForPoint(
+                        LatLng(marker.position.latitude, marker.position.longitude),
                         marker.snippet
-                    )
+                )
 
-                } else {
-                    startActivity(Intent(this, MarkerDetailActivity::class.java).apply {
-                        putExtra(
+            } else {
+                startActivity(Intent(this, MarkerDetailActivity::class.java).apply {
+                    putExtra(
                             RESP_INDEX,
                             locationViewModel.markerDetailsList.value?.firstOrNull {
                                 it.note == marker.title && LatLng(
-                                    it.latitude,
-                                    it.longitude
+                                        it.latitude,
+                                        it.longitude
                                 ) == marker.position
                             })
-                    })
-                }
+                })
             }
         }
 
@@ -121,9 +119,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OptionsBottomSheet
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
+            requestCode: Int,
+            permissions: Array<String>,
+            grantResults: IntArray
     ) {
         locationPermissionGranted = false
         when (requestCode) {
@@ -131,7 +129,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OptionsBottomSheet
 
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.isNotEmpty() &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED
                 ) {
                     locationPermissionGranted = true
                     updateLocationUI()
@@ -149,13 +147,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OptionsBottomSheet
          */
         if (ContextCompat.checkSelfPermission(
                         this.applicationContext, Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED
+                == PackageManager.PERMISSION_GRANTED
         ) {
             locationPermissionGranted = true
         } else {
             ActivityCompat.requestPermissions(
-                this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
+                    this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
             )
         }
     }
@@ -180,29 +178,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OptionsBottomSheet
         }
     }
 
-    //todo move to a handler class
     private fun showAlertDialogForPoint(point: LatLng?, address: String) {
-        // inflate message_item.xml view
-        val messageView: View =
-            LayoutInflater.from(this@MapsActivity).inflate(R.layout.message_item, null)
-        // Create alert dialog builder
+        val view = DataBindingUtil.inflate<MessageItemBinding>(LayoutInflater.from(this@MapsActivity), R.layout.message_item, null, false)
         val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-        // set message_item.xml to AlertDialog builder
-        alertDialogBuilder.setView(messageView)
-        messageView.findViewById<TextView>(R.id.address_snippet).text = address
-        // Create alert dialog
+        alertDialogBuilder.setView(view.root)
+        view.title.text = address
         val alertDialog: AlertDialog = alertDialogBuilder.create()
 
-        // Configure dialog button (OK)
         alertDialog.setButton(
-            DialogInterface.BUTTON_POSITIVE, "Save Marker"
+                DialogInterface.BUTTON_POSITIVE, "Save Marker"
         ) { _, _ -> // Define color of marker icon
             BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
-            val note = (alertDialog.findViewById<EditText>(R.id.note_edit))?.text.toString()
+            val note = view.noteEdit.text.toString()
             locationViewModel.storeMarkerInCloud(point, note, address)
         }
         alertDialog.setButton(
-            DialogInterface.BUTTON_NEGATIVE, "Cancel"
+                DialogInterface.BUTTON_NEGATIVE, "Cancel"
         ) { dialog, _ -> dialog.cancel() }
         alertDialog.show()
     }
