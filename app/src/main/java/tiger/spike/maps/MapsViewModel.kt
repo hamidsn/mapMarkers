@@ -50,6 +50,7 @@ class MapsViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 //fetch all previously saved markers from Firebase
+                //todo move to a util class to make viewmodel clear
                 val mChildEventListener = object : ChildEventListener {
                     override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                         val savedMarker: MarkerResponse? = dataSnapshot.getValue(MarkerResponse::class.java)
@@ -108,7 +109,7 @@ class MapsViewModel : ViewModel() {
                     override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
                     override fun onCancelled(databaseError: DatabaseError) {}
                 }
-                markersDatabaseReference?.addChildEventListener(mChildEventListener as ChildEventListener)
+                markersDatabaseReference.addChildEventListener(mChildEventListener as ChildEventListener)
 
             } catch (e: Exception) {
                 Log.e("viewmodel", e.message, e)
