@@ -133,7 +133,6 @@ class MapsViewModel : ViewModel() {
                 }.addOnFailureListener {
                     //fail error handling ?
                 }
-
     }
 
     fun filterMarkers(filterArea: String, filterText: String) {

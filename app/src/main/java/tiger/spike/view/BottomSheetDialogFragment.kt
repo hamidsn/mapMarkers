@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import tiger.spike.maps.R
-import tiger.spike.maps.databinding.BottomSheetBinding
+import tiger.spike.R
+import tiger.spike.databinding.BottomSheetBinding
 
 class OptionsBottomSheetFragment : BottomSheetDialogFragment() {
     private var mListener: ItemClickListener? = null

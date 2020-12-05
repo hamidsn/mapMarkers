@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
     id 'com.google.gms.google-services'
 }
 
@@ -35,6 +36,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    testOptions {
+        unitTests {
+            returnDefaultValues true
+            includeAndroidResources true
+        }
+    }
 }
 
 dependencies {
@@ -61,6 +68,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx'
 
     testImplementation 'junit:junit:4.13.1'
-    androidTestCompile 'androidx.test.ext:junit:1.1.2'
-    androidTestCompile 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation "org.robolectric:robolectric:4.3"
+    testImplementation "io.mockk:mockk:1.9.3"
+    testImplementation "org.mockito:mockito-core:2.19.0"
+    testImplementation "org.mockito:mockito-inline:2.19.0"
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }

@@ -20,7 +20,8 @@ import java.io.IOException
 
 object LocationUtil {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private val DEFAULT_ZOOM = 15
+    private const val DEFAULT_ZOOM = 15
+    private const val HEX_COLOR_DIGITS = 6
 
     fun getAddress(latLng: LatLng, context: Context): String {
 
@@ -30,11 +31,11 @@ object LocationUtil {
         try {
 
             addresses = Geocoder(context).getFromLocation(latLng.latitude, latLng.longitude, 1)
-            if (null != addresses && addresses.isNotEmpty()) {
+            if (!addresses.isNullOrEmpty()) {
                 address = addresses[0]
                 for (i in 0 until address.maxAddressLineIndex + 1) {
                     addressText +=
-                            if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(i)
+                        if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(i)
                 }
             }
         } catch (e: IOException) {
@@ -46,20 +47,21 @@ object LocationUtil {
     fun createMarkers(markers: MutableList<Place>?, map: GoogleMap) {
         markers?.forEach {
             map.addMarker(
-                    MarkerOptions()
-                            .position(it.latLng)
-                            .icon(getMarkerColor(it.snippet))
-                            .title(it.name)
-                            .snippet(it.address)
+                MarkerOptions()
+                    .position(it.latLng)
+                    .icon(getMarkerColor(it.snippet))
+                    .title(it.name)
+                    .snippet(it.address)
             )
         }
     }
 
-    fun getMarkerColor(userName: String?): BitmapDescriptor? {
+    @VisibleForTesting
+    fun getMarkerColor(userName: String?): BitmapDescriptor {
         val color = StringBuilder()
         color.append("#")
         val length = userName?.length ?: 0
-        for (i in 0 until 6) {
+        for (i in 0 until HEX_COLOR_DIGITS) {
             color.append(if (i >= length) "0" else userName?.get(i)?.hashCode()?.rem(9))
         }
 
@@ -77,14 +79,14 @@ object LocationUtil {
                 if (task.isSuccessful) {
                     // Set the map's camera position to the current location of the device.
                     lastKnownLocation = task.result
-                    if (lastKnownLocation != null) {
+                    lastKnownLocation?.run {
                         map.moveCamera(
-                                CameraUpdateFactory.newLatLngZoom(
-                                        LatLng(
-                                                lastKnownLocation!!.latitude,
-                                                lastKnownLocation!!.longitude
-                                        ), DEFAULT_ZOOM.toFloat()
-                                )
+                            CameraUpdateFactory.newLatLngZoom(
+                                LatLng(
+                                    lastKnownLocation!!.latitude,
+                                    lastKnownLocation!!.longitude
+                                ), DEFAULT_ZOOM.toFloat()
+                            )
                         )
                     }
                 }

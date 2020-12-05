@@ -19,7 +19,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import tiger.spike.maps.databinding.MessageItemBinding
+import tiger.spike.R
+import tiger.spike.databinding.MessageItemBinding
 import tiger.spike.util.LocationUtil
 import tiger.spike.view.CustomInfoWindow
 import tiger.spike.view.OptionsBottomSheetFragment

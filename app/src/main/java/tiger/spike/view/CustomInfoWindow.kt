@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.TextView
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
-import tiger.spike.maps.R
+import tiger.spike.R
 
 class CustomInfoWindow(context: Context) : GoogleMap.InfoWindowAdapter {
 
