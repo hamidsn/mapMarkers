@@ -63,7 +63,7 @@ class MapsViewModel : ViewModel() {
                                     )
                                 )
                             }
-                            markerDetailsList.value = newPlace
+                            markerDetailsList.postValue(newPlace)
 
                             markerList.run {
                                 add(
@@ -87,7 +87,7 @@ class MapsViewModel : ViewModel() {
                                     )
                                 )
                             }
-                            markerDetailsList.value = newPlace
+                            markerDetailsList.postValue(newPlace)
 
                             markerList.run {
                                 add(
