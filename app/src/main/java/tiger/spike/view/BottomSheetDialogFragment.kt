@@ -65,10 +65,8 @@ class OptionsBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(bundle: Bundle): OptionsBottomSheetFragment {
-            val fragment = OptionsBottomSheetFragment()
-            fragment.arguments = bundle
-            return fragment
+        fun newInstance(): OptionsBottomSheetFragment {
+            return OptionsBottomSheetFragment()
         }
     }
 }

@@ -108,7 +108,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
 
         map.setOnMapLongClickListener {
             supportFragmentManager.let {
-                OptionsBottomSheetFragment.newInstance(Bundle()).apply {
+                OptionsBottomSheetFragment.newInstance().apply {
                     show(it, tag)
                 }
             }
