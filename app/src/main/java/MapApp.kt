@@ -3,7 +3,7 @@ package tiger.spike
 import android.app.Application
 import android.content.Context
 
-class MapApp: Application() {
+class MapApp : Application() {
 
     companion object {
         lateinit var appContext: Context

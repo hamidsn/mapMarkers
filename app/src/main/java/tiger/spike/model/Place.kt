@@ -4,15 +4,16 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 
 data class Place(
-        var name: String,
-        var latLng: LatLng,
-        var address: String) : ClusterItem {
+    var name: String,
+    var latLng: LatLng,
+    var address: String
+) : ClusterItem {
     override fun getPosition(): LatLng =
-            latLng
+        latLng
 
     override fun getTitle(): String =
-            name
+        name
 
     override fun getSnippet(): String =
-            address
+        address
 }

@@ -8,11 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.NotNull
@@ -53,52 +49,53 @@ class MapsViewModel : ViewModel() {
                 //todo move to a util class to make viewmodel clear
                 val mChildEventListener = object : ChildEventListener {
                     override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-                        val savedMarker: MarkerResponse? = dataSnapshot.getValue(MarkerResponse::class.java)
+                        val savedMarker: MarkerResponse? =
+                            dataSnapshot.getValue(MarkerResponse::class.java)
                         savedMarker?.let {
                             newPlace.run {
                                 add(
-                                        MarkerResponse(
-                                                it.note,
-                                                it.userName,
-                                                it.address,
-                                                it.latitude,
-                                                it.longitude
-                                        )
+                                    MarkerResponse(
+                                        it.note,
+                                        it.userName,
+                                        it.address,
+                                        it.latitude,
+                                        it.longitude
+                                    )
                                 )
                             }
                             markerDetailsList.value = newPlace
 
                             markerList.run {
                                 add(
-                                        Place(
-                                                savedMarker.note,
-                                                LatLng(savedMarker.latitude, savedMarker.longitude),
-                                                savedMarker.userName
-                                        )
+                                    Place(
+                                        savedMarker.note,
+                                        LatLng(savedMarker.latitude, savedMarker.longitude),
+                                        savedMarker.userName
+                                    )
                                 )
                             }
                         }
                         if (savedMarker != null) {
                             newPlace.run {
                                 add(
-                                        MarkerResponse(
-                                                savedMarker.note,
-                                                savedMarker.userName,
-                                                savedMarker.address,
-                                                savedMarker.latitude,
-                                                savedMarker.longitude
-                                        )
+                                    MarkerResponse(
+                                        savedMarker.note,
+                                        savedMarker.userName,
+                                        savedMarker.address,
+                                        savedMarker.latitude,
+                                        savedMarker.longitude
+                                    )
                                 )
                             }
                             markerDetailsList.value = newPlace
 
                             markerList.run {
                                 add(
-                                        Place(
-                                                savedMarker.note,
-                                                LatLng(savedMarker.latitude, savedMarker.longitude),
-                                                savedMarker.userName
-                                        )
+                                    Place(
+                                        savedMarker.note,
+                                        LatLng(savedMarker.latitude, savedMarker.longitude),
+                                        savedMarker.userName
+                                    )
                                 )
                             }
                         }
@@ -122,17 +119,19 @@ class MapsViewModel : ViewModel() {
     }
 
     fun storeMarkerInCloud(@NotNull point: LatLng?, note: String, address: String) {
-        val newMarker = MarkerResponse(note, userName
-                ?: "", address, point!!.latitude, point.longitude)
+        val newMarker = MarkerResponse(
+            note, userName
+                ?: "", address, point!!.latitude, point.longitude
+        )
         markersDatabaseReference.child((System.currentTimeMillis() / 1000L).toString())
-                .setValue(
-                        newMarker
-                ).addOnSuccessListener {
-                    //success
-                    _userMarkerOptuion.postValue(null)
-                }.addOnFailureListener {
-                    //fail error handling ?
-                }
+            .setValue(
+                newMarker
+            ).addOnSuccessListener {
+                //success
+                _userMarkerOptuion.postValue(null)
+            }.addOnFailureListener {
+                //fail error handling ?
+            }
     }
 
     fun filterMarkers(filterArea: String, filterText: String) {
@@ -140,11 +139,13 @@ class MapsViewModel : ViewModel() {
 
         markerDetailsList.value?.forEach {
             if (when (filterArea) {
-                "note" -> it.note.contains(filterText, true)
-                else -> it.userName.contains(filterText, true)
-            }) {
+                    "note" -> it.note.contains(filterText, true)
+                    else -> it.userName.contains(filterText, true)
+                }
+            ) {
                 filteredMarkerList.run {
-                    add(Place(it.note, LatLng(it.latitude, it.longitude), it.userName)
+                    add(
+                        Place(it.note, LatLng(it.latitude, it.longitude), it.userName)
                     )
                 }
             }

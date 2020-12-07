@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout >
+<layout>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="8dp">
-
-    <EditText
-        android:id="@+id/note_ed"
-        style="@style/BottomSheetItem"
-        android:hint="@string/filter_by_note"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no"
-        android:inputType="text" />
-
-    <Button
-        android:id="@+id/note_button"
-        android:text="@string/filter_button"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:paddingBottom="8dp">
 
-    <EditText
-        android:id="@+id/user_ed"
-        style="@style/BottomSheetItem"
-        android:hint="@string/filter_by_user_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/note_ed"
-        android:importantForAutofill="no"
-        android:inputType="text" />
+        <EditText
+            android:id="@+id/note_ed"
+            style="@style/BottomSheetItem"
+            android:hint="@string/filter_by_note"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:importantForAutofill="no"
+            android:inputType="text" />
 
-    <Button
-        android:id="@+id/username_button"
-        android:text="@string/filter_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/note_ed" />
+        <Button
+            android:id="@+id/note_button"
+            android:text="@string/filter_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/user_ed"
+            style="@style/BottomSheetItem"
+            android:hint="@string/filter_by_user_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/note_ed"
+            android:importantForAutofill="no"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/username_button"
+            android:text="@string/filter_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/note_ed" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
